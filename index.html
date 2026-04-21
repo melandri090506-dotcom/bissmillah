@@ -1,560 +1,1246 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#2563eb" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <title>FixNear - Cari Tukang Terdekat</title>
-  
+  <meta name="theme-color" content="#2563eb">
+  <title>FixNear - Platform Tukang & Service Terpercaya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #22c55e;
-      --bg: #f8fafc;
-      --text-dark: #1e293b;
-      --text-light: #64748b;
-      --white: #ffffff;
-      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fb;
+      color: #1e293b;
+    }
 
-    body { background-color: var(--bg); color: var(--text-dark); transition: all 0.3s ease; }
+    /* Variabel */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    }
 
-    /* Header & Navigation */
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
     .header {
-      background: linear-gradient(135deg, var(--primary), #1d4ed8);
-      color: var(--white);
-      padding: 30px 20px;
-      text-align: center;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
       box-shadow: var(--shadow);
     }
 
-    .role-switcher {
+    .header-content {
       display: flex;
-      justify-content: center;
-      margin-top: 15px;
-      background: rgba(255, 255, 255, 0.2);
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .logo p {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .role-switch {
+      display: flex;
+      gap: 10px;
+      background: rgba(255,255,255,0.2);
       padding: 5px;
-      border-radius: 50px;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
+      border-radius: 40px;
     }
 
     .role-btn {
-      border: none;
       padding: 8px 20px;
-      border-radius: 50px;
-      cursor: pointer;
+      border: none;
+      border-radius: 40px;
       font-weight: 600;
-      transition: 0.3s;
+      cursor: pointer;
+      transition: 0.2s;
       background: transparent;
       color: white;
     }
 
-    .role-btn.active { background: var(--white); color: var(--primary); }
-
-    /* Search & Filters */
-    .search-container {
-      padding: 20px;
-      margin-top: -25px;
+    .role-btn.active {
+      background: white;
+      color: var(--primary);
     }
 
-    .search-bar {
-      background: var(--white);
-      padding: 15px;
-      border-radius: 15px;
+    .auth-buttons {
       display: flex;
+      gap: 10px;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: white;
+      margin: -20px 20px 20px;
+      padding: 20px;
+      border-radius: 24px;
       box-shadow: var(--shadow);
     }
 
-    .search-bar input { border: none; outline: none; flex: 1; padding: 0 10px; font-size: 1rem; }
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: 40px;
+      font-size: 1rem;
+    }
+
+    .location-btn {
+      background: var(--primary-light);
+      border: none;
+      padding: 0 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .category-scroll {
       display: flex;
       gap: 10px;
       overflow-x: auto;
-      padding: 15px 20px;
-      scrollbar-width: none;
+      padding: 10px 0;
     }
-    .category-scroll::-webkit-scrollbar { display: none; }
 
     .cat-item {
-      background: var(--white);
-      padding: 10px 20px;
-      border-radius: 50px;
+      padding: 8px 20px;
+      background: var(--gray-100);
+      border-radius: 40px;
       white-space: nowrap;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      border: 1px solid transparent;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
-    .cat-item.active { background: var(--primary); color: white; }
+    .cat-item.active {
+      background: var(--primary);
+      color: white;
+    }
 
-    /* List Tukang Grid */
-    .main-content { padding: 0 20px 100px 20px; }
-    
-    .grid {
+    .sort-select {
+      padding: 8px 16px;
+      border-radius: 40px;
+      border: 1px solid var(--gray-200);
+      background: white;
+    }
+
+    /* Grid Tukang */
+    .tukang-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
     }
 
     .card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 20px;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
       box-shadow: var(--shadow);
-      transition: 0.3s;
-      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
-      border: 1px solid #f1f5f9;
     }
 
-    .card:hover { transform: translateY(-8px); }
-
-    .status-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border-radius: 50px;
-      font-weight: bold;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
     }
 
-    .online { background: #dcfce7; color: #166534; }
-    .offline { background: #f1f5f9; color: #64748b; }
-
-    .card-img { width: 60px; height: 60px; border-radius: 15px; background: #e2e8f0; object-fit: cover; }
-    
-    .card-body h3 { margin-top: 10px; font-size: 1.1rem; }
-    .skill-tag { font-size: 0.8rem; color: var(--primary); font-weight: 600; }
-    
-    .rating { color: #f59e0b; font-size: 0.9rem; margin: 5px 0; }
-    .card-footer {
+    .card-header {
+      padding: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--gray-100);
     }
 
-    .price { font-weight: 700; color: var(--text-dark); }
-    
-    .btn-group { display: flex; gap: 8px; margin-top: 15px; }
-    
+    .status {
+      font-size: 0.7rem;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 600;
+    }
+
+    .status.online { background: #d1fae5; color: #065f46; }
+    .status.offline { background: var(--gray-200); color: var(--gray-600); }
+
+    .favorite-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--gray-400);
+    }
+
+    .favorite-btn.active {
+      color: var(--warning);
+    }
+
+    .card-body {
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      background: var(--primary-light);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .skill {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 10px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .rating {
+      margin: 8px 0;
+      font-size: 0.85rem;
+    }
+
+    .rating i {
+      color: #fbbf24;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .card-footer {
+      padding: 16px;
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      gap: 12px;
+    }
+
     .btn {
-      border: none; padding: 10px; border-radius: 12px; cursor: pointer; 
-      font-weight: 600; transition: 0.2s; flex: 1; font-size: 0.85rem;
+      flex: 1;
+      padding: 10px;
+      border-radius: 40px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .btn:active { transform: scale(0.95); }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-outline { background: #eff6ff; color: var(--primary); }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
 
-    /* Modal Styling */
+    .btn-outline {
+      background: var(--gray-100);
+      color: var(--gray-800);
+    }
+
+    /* Modal */
     .modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
     }
 
     .modal-content {
-      background: white; width: 100%; max-width: 450px; border-radius: 25px;
-      padding: 30px; position: relative; animation: slideUp 0.3s ease-out;
+      background: white;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 28px;
+      padding: 24px;
+      position: relative;
     }
 
-    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-    .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; }
+    .close-modal {
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-    /* Chat UI */
-    .chat-box { height: 300px; overflow-y: auto; background: #f8fafc; padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 10px; }
-    .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
-    .msg-user { align-self: flex-end; background: var(--primary); color: white; }
-    .msg-tukang { align-self: flex-start; background: #e2e8f0; color: var(--text-dark); }
+    /* Form */
+    .form-group {
+      margin-bottom: 16px;
+    }
 
-    /* Mode Tukang Form */
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600; }
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
     .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      font-family: inherit;
     }
 
     /* Toast */
     .toast {
-      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-      background: var(--text-dark); color: white; padding: 12px 25px;
-      border-radius: 50px; font-size: 0.9rem; display: none; z-index: 2000;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 40px;
+      z-index: 1100;
+      display: none;
+      white-space: nowrap;
     }
 
-    /* Footer */
-    .footer { text-align: center; padding: 30px; color: var(--text-light); font-size: 0.8rem; }
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-600);
+    }
+
+    /* Chat */
+    .chat-messages {
+      height: 350px;
+      overflow-y: auto;
+      background: var(--gray-50);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+    }
+
+    .message.tukang {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid var(--gray-200);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .tukang-grid {
+        grid-template-columns: 1fr;
+      }
+      .toast {
+        white-space: normal;
+        text-align: center;
+        max-width: 90%;
+      }
+    }
   </style>
 </head>
-
 <body>
 
-  <header class="header">
-    <h1>FixNear</h1>
-    <p>Temukan Tukang Terdekat dengan Mudah</p>
-    <div class="role-switcher">
-      <button class="role-btn active" onclick="switchMode('user')">User</button>
-      <button class="role-btn" onclick="switchMode('tukang')">Tukang</button>
+<header class="header">
+  <div class="container header-content">
+    <div class="logo">
+      <h1><i class="fas fa-tools"></i> FixNear</h1>
+      <p>Tukang Profesional Terdekat</p>
     </div>
-  </header>
-
-  <div id="loader" style="display:none; text-align:center; padding: 50px;">
-    <p>Mencari teknisi terbaik...</p>
+    <div class="role-switch">
+      <button class="role-btn active" data-role="user"><i class="fas fa-user"></i> User</button>
+      <button class="role-btn" data-role="tukang"><i class="fas fa-hard-hat"></i> Tukang</button>
+    </div>
+    <div class="auth-buttons" id="auth-buttons">
+      <button class="btn-outline-light" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> Masuk</button>
+      <button class="btn-light" onclick="openRegisterModal()">Daftar</button>
+    </div>
+    <div class="user-info" id="user-info" style="display:none;">
+      <span id="user-name-display"></span>
+      <button class="btn-outline-light" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </div>
   </div>
+</header>
 
-  <main id="view-user">
-    <div class="search-container">
-      <div class="search-bar">
-        <span>🔍</span>
-        <input type="text" id="searchInput" placeholder="Cari keahlian (contoh: AC)..." onkeyup="filterData()">
-      </div>
+<main id="user-view">
+  <div class="search-section">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Cari tukang, keahlian, atau lokasi..." onkeyup="filterAndRender()">
+      <button class="location-btn" onclick="getUserLocation()"><i class="fas fa-map-marker-alt"></i> Terdekat</button>
     </div>
-
-    <div class="category-scroll">
-      <div class="cat-item active" onclick="filterCategory('Semua')">Semua</div>
-      <div class="cat-item" onclick="filterCategory('AC')">AC</div>
-      <div class="cat-item" onclick="filterCategory('Listrik')">Listrik</div>
-      <div class="cat-item" onclick="filterCategory('HP')">HP</div>
-      <div class="cat-item" onclick="filterCategory('TV')">TV</div>
-    </div>
-
-    <div class="main-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h2 style="font-size: 1.1rem;">Rekomendasi Teknisi</h2>
-        <select onchange="sortData(this.value)" style="border:none; background:none; font-size:0.8rem; color:var(--primary); font-weight:bold;">
-          <option value="jarak">Terdekat</option>
-          <option value="rating">Rating Tertinggi</option>
-          <option value="harga">Harga Termurah</option>
-        </select>
+    <div class="filter-row">
+      <div class="category-scroll" id="category-list">
+        <div class="cat-item active" data-cat="all">Semua</div>
+        <div class="cat-item" data-cat="AC">AC</div>
+        <div class="cat-item" data-cat="Listrik">Listrik</div>
+        <div class="cat-item" data-cat="HP">HP</div>
+        <div class="cat-item" data-cat="TV">TV</div>
+        <div class="cat-item" data-cat="Plumbing">Plumbing</div>
+        <div class="cat-item" data-cat="Bangunan">Bangunan</div>
       </div>
-      <div class="grid" id="tukang-grid">
-        </div>
-      <div id="empty-state" style="display:none; text-align:center; padding: 40px; color: var(--text-light);">
-        <p>Tukang tidak ditemukan.</p>
-      </div>
+      <select id="sort-select" class="sort-select" onchange="filterAndRender()">
+        <option value="jarak">Terdekat</option>
+        <option value="rating">Rating Tertinggi</option>
+        <option value="harga">Harga Termurah</option>
+        <option value="populer">Populer (Banyak pesanan)</option>
+      </select>
     </div>
-  </main>
+    <div class="filter-row" style="margin-top: 15px;">
+      <label><i class="fas fa-sliders-h"></i> Filter Jarak:</label>
+      <select id="distance-filter" onchange="filterAndRender()">
+        <option value="all">Semua</option>
+        <option value="1">&lt; 1 km</option>
+        <option value="3">&lt; 3 km</option>
+        <option value="5">&lt; 5 km</option>
+        <option value="10">&lt; 10 km</option>
+      </select>
+      <label style="margin-left: 15px;"><i class="fas fa-star"></i> Min Rating:</label>
+      <select id="rating-filter" onchange="filterAndRender()">
+        <option value="0">Semua</option>
+        <option value="4">4+ ⭐</option>
+        <option value="4.5">4.5+ ⭐</option>
+        <option value="4.8">4.8+ ⭐</option>
+      </select>
+    </div>
+  </div>
+  <div class="container">
+    <div class="tukang-grid" id="tukang-grid"></div>
+    <div id="empty-state" class="empty-state" style="display:none;">
+      <i class="fas fa-search fa-3x"></i>
+      <p>Tidak ada tukang yang cocok dengan filter Anda.</p>
+    </div>
+  </div>
+</main>
 
-  <main id="view-tukang" style="display:none; padding: 20px;">
-    <div class="card" style="margin-bottom: 20px; background: var(--primary); color: white;">
-      <div style="display:flex; justify-content:space-between;">
+<main id="tukang-view" style="display:none;">
+  <div class="container" style="padding: 20px 0;">
+    <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; margin-bottom: 24px;">
+      <div class="card-body" style="justify-content: space-between;">
         <div>
-          <p style="font-size: 0.8rem;">Statistik Anda</p>
-          <h2 style="font-size: 1.5rem;">4.9 ⭐</h2>
+          <h3><i class="fas fa-chart-line"></i> Dashboard Tukang</h3>
+          <p>Kelola jasa dan pesananmu</p>
         </div>
-        <div style="text-align:right;">
-          <p style="font-size: 0.8rem;">Pekerjaan Selesai</p>
-          <h2 style="font-size: 1.5rem;">124</h2>
+        <div>
+          <i class="fas fa-user-circle fa-3x"></i>
         </div>
+      </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <h3><i class="fas fa-plus-circle"></i> Daftarkan Jasa Baru</h3>
+      </div>
+      <div class="card-body" style="flex-direction: column;">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="tukang-nama" placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+          <label>Keahlian Utama</label>
+          <select id="tukang-keahlian">
+            <option>AC</option><option>Listrik</option><option>HP</option><option>TV</option><option>Plumbing</option><option>Bangunan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Harga Mulai (Rp)</label>
+          <input type="number" id="tukang-harga" placeholder="50000">
+        </div>
+        <div class="form-group">
+          <label>Deskripsi & Pengalaman</label>
+          <textarea id="tukang-deskripsi" rows="3" placeholder="Ceritakan pengalaman dan keahlian Anda..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Lokasi (Alamat)</label>
+          <input type="text" id="tukang-alamat" placeholder="Kota/Kecamatan">
+        </div>
+        <button class="btn btn-primary" onclick="daftarJasa()"><i class="fas fa-save"></i> Daftarkan Jasa</button>
       </div>
     </div>
 
     <div class="card">
-      <h3 style="margin-bottom:15px;">Daftarkan Jasa Anda</h3>
-      <div class="form-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="t-nama" placeholder="Masukkan nama...">
+      <div class="card-header">
+        <h3><i class="fas fa-clipboard-list"></i> Pesanan Masuk</h3>
       </div>
-      <div class="form-group">
-        <label>Keahlian Utama</label>
-        <select id="t-skill">
-          <option value="AC">AC</option>
-          <option value="Listrik">Listrik</option>
-          <option value="HP">HP</option>
-          <option value="TV">TV</option>
-        </select>
+      <div class="card-body" id="tukang-orders" style="flex-direction: column; gap: 16px;">
+        <!-- Pesanan akan di-load di sini -->
       </div>
-      <div class="form-group">
-        <label>Estimasi Harga (Rp)</label>
-        <input type="number" id="t-harga" placeholder="Contoh: 75000">
-      </div>
-      <div class="form-group">
-        <label>Deskripsi Singkat</label>
-        <textarea id="t-desc" rows="3" placeholder="Jelaskan kelebihan Anda..."></textarea>
-      </div>
-      <button class="btn btn-primary" onclick="tambahJasa()">Daftarkan Jasa</button>
     </div>
-  </main>
 
-  <div class="modal" id="modal-detail">
-    <div class="modal-content" id="detail-content">
+    <div class="card" style="margin-top: 24px;">
+      <div class="card-header">
+        <h3><i class="fas fa-chart-simple"></i> Statistik Kinerja</h3>
       </div>
-  </div>
-
-  <div class="modal" id="modal-chat">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeAllModals()">×</span>
-      <h3 id="chat-with" style="margin-bottom:15px;">Chat</h3>
-      <div class="chat-box" id="chat-messages">
-        <div class="msg msg-tukang">Halo! Ada yang bisa saya bantu dengan perangkat elektroniknya?</div>
-      </div>
-      <div style="display:flex; gap:10px; margin-top:15px;">
-        <input type="text" id="chat-input" placeholder="Tulis pesan..." style="flex:1; padding:10px; border-radius:10px; border:1px solid #e2e8f0;">
-        <button class="btn btn-primary" style="flex:none; width:60px;" onclick="sendMessage()">Kirim</button>
+      <div class="card-body" style="justify-content: space-around; text-align: center;">
+        <div><i class="fas fa-star fa-2x" style="color: #fbbf24;"></i><br><span id="stat-rating">0</span><br>Rating</div>
+        <div><i class="fas fa-check-circle fa-2x" style="color: #10b981;"></i><br><span id="stat-completed">0</span><br>Selesai</div>
+        <div><i class="fas fa-users fa-2x"></i><br><span id="stat-total-order">0</span><br>Total Pesanan</div>
       </div>
     </div>
   </div>
+</main>
 
-  <div class="modal" id="modal-pesan">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeAllModals()">×</span>
-      <h3 style="margin-bottom:15px;">Buat Pesanan</h3>
-      <div class="form-group">
-        <label>Alamat Lengkap</label>
-        <input type="text" id="order-alamat" placeholder="Jl. Mawar No. 123...">
-      </div>
-      <div class="form-group">
-        <label>Deskripsi Keluhan</label>
-        <textarea id="order-desc" rows="3" placeholder="Contoh: AC tidak dingin sama sekali..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Metode Pembayaran</label>
-        <select id="order-pay">
-          <option value="Cash">Tunai (Cash)</option>
-          <option value="Transfer">Transfer Bank</option>
-          <option value="Saldo">FixNear Saldo</option>
-        </select>
-      </div>
-      <button class="btn btn-primary" onclick="konfirmasiPesanan()">Konfirmasi Pemesanan</button>
+<!-- Modal Login -->
+<div id="login-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Masuk ke FixNear</h3>
+      <span class="close-modal" onclick="closeModal('login-modal')">&times;</span>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="contoh@email.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="******">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="login()">Masuk</button>
+    <p style="text-align:center; margin-top:16px;">Belum punya akun? <a href="#" onclick="openRegisterModal()">Daftar</a></p>
+  </div>
+</div>
+
+<!-- Modal Register -->
+<div id="register-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Daftar Akun Baru</h3>
+      <span class="close-modal" onclick="closeModal('register-modal')">&times;</span>
+    </div>
+    <div class="form-group">
+      <label>Nama Lengkap</label>
+      <input type="text" id="reg-nama" placeholder="Nama Anda">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="reg-email" placeholder="email@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="reg-password" placeholder="Minimal 6 karakter">
+    </div>
+    <div class="form-group">
+      <label>Role</label>
+      <select id="reg-role">
+        <option value="user">User (Pencari Jasa)</option>
+        <option value="tukang">Tukang (Penyedia Jasa)</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="register()">Daftar</button>
+  </div>
+</div>
+
+<!-- Modal Detail Tukang -->
+<div id="detail-modal" class="modal">
+  <div class="modal-content" id="detail-content"></div>
+</div>
+
+<!-- Modal Chat -->
+<div id="chat-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="chat-title">Chat dengan Tukang</h3>
+      <span class="close-modal" onclick="closeModal('chat-modal')">&times;</span>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div style="display: flex; gap: 10px;">
+      <input type="text" id="chat-input" placeholder="Ketik pesan..." style="flex:1; padding:12px; border-radius:40px; border:1px solid var(--gray-200);">
+      <button class="btn btn-primary" onclick="sendChatMessage()">Kirim</button>
     </div>
   </div>
+</div>
 
-  <div class="toast" id="toast">Notifikasi muncul</div>
+<!-- Modal Pesan -->
+<div id="order-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Buat Pesanan</h3>
+      <span class="close-modal" onclick="closeModal('order-modal')">&times;</span>
+    </div>
+    <div class="form-group">
+      <label>Alamat Lengkap</label>
+      <textarea id="order-alamat" rows="2" placeholder="Jl. Contoh No. 123, RT/RW..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Deskripsi Pekerjaan</label>
+      <textarea id="order-deskripsi" rows="3" placeholder="Jelaskan masalah atau pekerjaan yang dibutuhkan..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Tanggal Pengerjaan</label>
+      <input type="date" id="order-tanggal">
+    </div>
+    <div class="form-group">
+      <label>Metode Pembayaran</label>
+      <select id="order-payment">
+        <option>Cash (Tunai)</option>
+        <option>Transfer Bank</option>
+        <option>FixNear Pay</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="buatPesanan()">Pesan Sekarang</button>
+  </div>
+</div>
 
-  <footer class="footer">
-    <p>© 2026 Anwar Fauzi • FixNear v1.0</p>
-  </footer>
+<!-- Modal Favorit -->
+<div id="favorite-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-heart"></i> Tukang Favorit Saya</h3>
+      <span class="close-modal" onclick="closeModal('favorite-modal')">&times;</span>
+    </div>
+    <div id="favorite-list"></div>
+  </div>
+</div>
 
-  <script>
-    // 📊 DATA DUMMY
-    let dataTukang = [
-      { id: 1, nama: "Budi Santoso", keahlian: "AC", rating: 4.8, review: 156, jarak: 0.8, hargaMin: 50000, hargaMax: 150000, status: "online", deskripsi: "Spesialis AC split dan central selama 10 tahun." },
-      { id: 2, nama: "Agus Listrik", keahlian: "Listrik", rating: 4.9, review: 89, jarak: 1.5, hargaMin: 75000, hargaMax: 200000, status: "online", deskripsi: "Instalasi kabel rumah dan perbaikan korsleting." },
-      { id: 3, nama: "Irfan Cell", keahlian: "HP", rating: 4.5, review: 210, jarak: 2.1, hargaMin: 30000, hargaMax: 500000, status: "offline", deskripsi: "Ganti LCD, baterai, dan servis software." },
-      { id: 4, nama: "Slamet TV", keahlian: "TV", rating: 4.7, review: 45, jarak: 3.0, hargaMin: 100000, hargaMax: 350000, status: "online", deskripsi: "Ahli TV LED, LCD, dan Smart TV semua merk." },
-      { id: 5, nama: "Rahmat AC", keahlian: "AC", rating: 4.6, review: 120, jarak: 1.2, hargaMin: 60000, hargaMax: 140000, status: "online", deskripsi: "Cuci AC rutin dan tambah freon cepat." },
-      { id: 6, nama: "Dedi Setiawan", keahlian: "Listrik", rating: 4.4, review: 67, jarak: 2.8, hargaMin: 50000, hargaMax: 100000, status: "offline", deskripsi: "Perbaikan stop kontak dan lampu." }
-    ];
+<!-- Modal Riwayat Pesanan -->
+<div id="orders-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-history"></i> Riwayat Pesanan Saya</h3>
+      <span class="close-modal" onclick="closeModal('orders-modal')">&times;</span>
+    </div>
+    <div id="orders-list"></div>
+  </div>
+</div>
 
-    let currentCategory = 'Semua';
+<div id="toast" class="toast"></div>
 
-    // ⚙️ FUNGSI SWITCH MODE
-    function switchMode(mode) {
-      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      
-      if(mode === 'user') {
-        document.getElementById('view-user').style.display = 'block';
-        document.getElementById('view-tukang').style.display = 'none';
-      } else {
-        document.getElementById('view-user').style.display = 'none';
-        document.getElementById('view-tukang').style.display = 'block';
-      }
+<script>
+  // ==================== DATA STORAGE ====================
+  let users = JSON.parse(localStorage.getItem('fixnear_users') || '[]');
+  let tukangs = JSON.parse(localStorage.getItem('fixnear_tukangs') || '[]');
+  let orders = JSON.parse(localStorage.getItem('fixnear_orders') || '[]');
+  let chats = JSON.parse(localStorage.getItem('fixnear_chats') || '[]');
+  let favorites = JSON.parse(localStorage.getItem('fixnear_favorites') || '[]');
+  let currentUser = JSON.parse(localStorage.getItem('fixnear_current_user') || 'null');
+  
+  let userLocation = { lat: -6.2088, lng: 106.8456 }; // Default Jakarta
+  let selectedTukangId = null;
+  let currentChatTukangId = null;
+  
+  // Inisialisasi data dummy jika kosong
+  function initDummyData() {
+    if(users.length === 0) {
+      users.push({ id: 1, nama: "User Demo", email: "user@demo.com", password: "123456", role: "user" });
+      users.push({ id: 2, nama: "Tukang Demo", email: "tukang@demo.com", password: "123456", role: "tukang" });
+      localStorage.setItem('fixnear_users', JSON.stringify(users));
     }
-
-    // ⚙️ RENDER DATA
-    function renderTukang(data) {
-      const grid = document.getElementById('tukang-grid');
-      const empty = document.getElementById('empty-state');
-      grid.innerHTML = '';
-      
-      if(data.length === 0) {
-        empty.style.display = 'block';
-        return;
-      }
-      empty.style.display = 'none';
-
-      data.forEach(t => {
-        const stars = "⭐".repeat(Math.floor(t.rating));
-        grid.innerHTML += `
-          <div class="card" onclick="openDetail(${t.id})">
-            <span class="status-badge ${t.status}">${t.status.toUpperCase()}</span>
-            <div style="display:flex; gap:15px; align-items:center;">
-              <img src="https://ui-avatars.com/api/?name=${t.nama}&background=random" class="card-img">
-              <div>
-                <span class="skill-tag">${t.keahlian}</span>
-                <h3>${t.nama}</h3>
-              </div>
-            </div>
-            <div class="rating">${stars} <span style="color:#64748b; font-size:0.8rem">(${t.review} review)</span></div>
-            <p style="font-size:0.8rem; color:var(--text-light)">📍 ${t.jarak} km dari lokasi Anda</p>
-            <div class="card-footer">
-              <span class="price">Rp ${t.hargaMin.toLocaleString()} - ${t.hargaMax.toLocaleString()}</span>
-            </div>
-            <div class="btn-group">
-              <button class="btn btn-outline" onclick="event.stopPropagation(); openChat('${t.nama}')">Chat</button>
-              <button class="btn btn-primary" onclick="event.stopPropagation(); openPesan(${t.id})">Pesan</button>
+    if(tukangs.length === 0) {
+      tukangs = [
+        { id: 1, userId: 2, nama: "Budi Santoso", keahlian: "AC", hargaMin: 50000, deskripsi: "Spesialis AC split, cuci AC, isi freon", alamat: "Jakarta Selatan", rating: 4.8, completedJobs: 156, lat: -6.21, lng: 106.82, status: "online", image: "Budi" },
+        { id: 2, userId: null, nama: "Agus Listrik", keahlian: "Listrik", hargaMin: 75000, deskripsi: "Instalasi listrik, perbaikan korsleting", alamat: "Jakarta Pusat", rating: 4.9, completedJobs: 89, lat: -6.18, lng: 106.83, status: "online" },
+        { id: 3, userId: null, nama: "Irfan Cell", keahlian: "HP", hargaMin: 30000, deskripsi: "Ganti LCD, baterai, software", alamat: "Jakarta Barat", rating: 4.5, completedJobs: 210, lat: -6.22, lng: 106.79, status: "offline" },
+        { id: 4, userId: null, nama: "Slamet TV", keahlian: "TV", hargaMin: 100000, deskripsi: "Ahli TV LED, LCD, Smart TV", alamat: "Jakarta Timur", rating: 4.7, completedJobs: 45, lat: -6.19, lng: 106.84, status: "online" },
+        { id: 5, userId: null, nama: "Rahmat AC", keahlian: "AC", hargaMin: 60000, deskripsi: "Cuci AC, pasang baru, perbaikan", alamat: "Jakarta Utara", rating: 4.6, completedJobs: 120, lat: -6.23, lng: 106.81, status: "online" },
+        { id: 6, userId: null, nama: "Dodi Plumbing", keahlian: "Plumbing", hargaMin: 80000, deskripsi: "Perbaikan pipa bocor, instalasi air", alamat: "Jakarta Selatan", rating: 4.9, completedJobs: 67, lat: -6.20, lng: 106.84, status: "online" }
+      ];
+      localStorage.setItem('fixnear_tukangs', JSON.stringify(tukangs));
+    }
+    if(orders.length === 0) {
+      orders = [
+        { id: 1, userId: 1, tukangId: 1, status: "Selesai", rating: 5, review: "Bagus!", tanggal: "2025-01-10", alamat: "Jl. Melati", deskripsi: "AC tidak dingin" },
+        { id: 2, userId: 1, tukangId: 2, status: "Diproses", rating: null, tanggal: "2025-01-15", alamat: "Jl. Mawar", deskripsi: "Lampu mati total" }
+      ];
+      localStorage.setItem('fixnear_orders', JSON.stringify(orders));
+    }
+  }
+  
+  function saveAll() {
+    localStorage.setItem('fixnear_users', JSON.stringify(users));
+    localStorage.setItem('fixnear_tukangs', JSON.stringify(tukangs));
+    localStorage.setItem('fixnear_orders', JSON.stringify(orders));
+    localStorage.setItem('fixnear_chats', JSON.stringify(chats));
+    localStorage.setItem('fixnear_favorites', JSON.stringify(favorites));
+  }
+  
+  // ==================== UTILITIES ====================
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.style.backgroundColor = isError ? '#ef4444' : '#1e293b';
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  }
+  
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+  
+  function updateDistances() {
+    for(let t of tukangs) {
+      if(t.lat && t.lng) t.jarak = haversine(userLocation.lat, userLocation.lng, t.lat, t.lng);
+      else t.jarak = (Math.random() * 5 + 0.5).toFixed(1);
+    }
+  }
+  
+  function getUserLocation() {
+    if("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        updateDistances();
+        filterAndRender();
+        showToast("Lokasi diperbarui, urutkan berdasarkan jarak terdekat");
+      }, () => showToast("Gagal akses lokasi, gunakan default", true));
+    } else showToast("Browser tidak support GPS", true);
+  }
+  
+  // ==================== AUTH ====================
+  function openLoginModal() { document.getElementById('login-modal').style.display = 'flex'; }
+  function openRegisterModal() { document.getElementById('register-modal').style.display = 'flex'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+  
+  function login() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const user = users.find(u => u.email === email && u.password === password);
+    if(!user) { showToast("Email atau password salah", true); return; }
+    currentUser = user;
+    localStorage.setItem('fixnear_current_user', JSON.stringify(currentUser));
+    showToast(`Selamat datang, ${user.nama}!`);
+    closeModal('login-modal');
+    updateAuthUI();
+    if(user.role === 'tukang') switchRole('tukang');
+    else switchRole('user');
+    filterAndRender();
+    if(user.role === 'tukang') loadTukangDashboard();
+  }
+  
+  function register() {
+    const nama = document.getElementById('reg-nama').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const role = document.getElementById('reg-role').value;
+    if(!nama || !email || !password) { showToast("Lengkapi semua data", true); return; }
+    if(users.find(u => u.email === email)) { showToast("Email sudah terdaftar", true); return; }
+    const newUser = { id: Date.now(), nama, email, password, role };
+    users.push(newUser);
+    saveAll();
+    currentUser = newUser;
+    localStorage.setItem('fixnear_current_user', JSON.stringify(currentUser));
+    showToast("Pendaftaran berhasil! Silakan login.");
+    closeModal('register-modal');
+    updateAuthUI();
+    if(role === 'tukang') switchRole('tukang');
+    else switchRole('user');
+  }
+  
+  function logout() {
+    currentUser = null;
+    localStorage.removeItem('fixnear_current_user');
+    updateAuthUI();
+    switchRole('user');
+    showToast("Anda telah keluar");
+  }
+  
+  function updateAuthUI() {
+    const authDiv = document.getElementById('auth-buttons');
+    const userInfoDiv = document.getElementById('user-info');
+    if(currentUser) {
+      authDiv.style.display = 'none';
+      userInfoDiv.style.display = 'flex';
+      document.getElementById('user-name-display').innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.nama}`;
+    } else {
+      authDiv.style.display = 'flex';
+      userInfoDiv.style.display = 'none';
+    }
+  }
+  
+  // ==================== ROLE SWITCH ====================
+  function switchRole(role) {
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.role-btn[data-role="${role}"]`).classList.add('active');
+    if(role === 'user') {
+      document.getElementById('user-view').style.display = 'block';
+      document.getElementById('tukang-view').style.display = 'none';
+      filterAndRender();
+    } else {
+      document.getElementById('user-view').style.display = 'none';
+      document.getElementById('tukang-view').style.display = 'block';
+      if(currentUser && currentUser.role === 'tukang') loadTukangDashboard();
+      else showToast("Silakan daftar sebagai tukang terlebih dahulu", true);
+    }
+  }
+  
+  // ==================== FILTER & RENDER TUKANG ====================
+  function filterAndRender() {
+    let search = document.getElementById('search-input').value.toLowerCase();
+    let activeCat = document.querySelector('.cat-item.active')?.dataset.cat || 'all';
+    let sortBy = document.getElementById('sort-select').value;
+    let distanceLimit = document.getElementById('distance-filter').value;
+    let minRating = parseFloat(document.getElementById('rating-filter').value);
+    
+    let filtered = tukangs.filter(t => {
+      if(activeCat !== 'all' && t.keahlian !== activeCat) return false;
+      if(search && !t.nama.toLowerCase().includes(search) && !t.keahlian.toLowerCase().includes(search) && !t.alamat.toLowerCase().includes(search)) return false;
+      if(distanceLimit !== 'all' && t.jarak > parseInt(distanceLimit)) return false;
+      if(minRating > 0 && t.rating < minRating) return false;
+      return true;
+    });
+    
+    if(sortBy === 'jarak') filtered.sort((a,b) => a.jarak - b.jarak);
+    else if(sortBy === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+    else if(sortBy === 'harga') filtered.sort((a,b) => a.hargaMin - b.hargaMin);
+    else if(sortBy === 'populer') filtered.sort((a,b) => (b.completedJobs||0) - (a.completedJobs||0));
+    
+    renderTukangGrid(filtered);
+  }
+  
+  function renderTukangGrid(data) {
+    const grid = document.getElementById('tukang-grid');
+    const empty = document.getElementById('empty-state');
+    if(!data.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    grid.innerHTML = data.map(t => {
+      const isFav = currentUser && favorites.some(f => f.userId === currentUser.id && f.tukangId === t.id);
+      return `
+        <div class="card" onclick="openDetail(${t.id})">
+          <div class="card-header">
+            <span class="status ${t.status}"><i class="fas fa-circle"></i> ${t.status === 'online' ? 'Online' : 'Offline'}</span>
+            <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${t.id})"><i class="fas fa-heart"></i></button>
+          </div>
+          <div class="card-body">
+            <div class="avatar">${t.nama.charAt(0)}</div>
+            <div class="info">
+              <h3>${t.nama}</h3>
+              <span class="skill">${t.keahlian}</span>
+              <div class="rating"><i class="fas fa-star"></i> ${t.rating} (${t.completedJobs || 0} selesai)</div>
+              <div><i class="fas fa-map-marker-alt"></i> ${t.jarak ? t.jarak.toFixed(1) : '?'} km - ${t.alamat || 'Lokasi tidak diketahui'}</div>
+              <div class="price">Rp ${t.hargaMin.toLocaleString()} / mulai</div>
             </div>
           </div>
-        `;
-      });
-    }
-
-    // ⚙️ FILTER & SORT
-    function filterCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-      event.target.classList.add('active');
-      filterData();
-    }
-
-    function filterData() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = dataTukang;
-
-      if(currentCategory !== 'Semua') {
-        filtered = filtered.filter(t => t.keahlian === currentCategory);
-      }
-
-      if(search) {
-        filtered = filtered.filter(t => t.keahlian.toLowerCase().includes(search) || t.nama.toLowerCase().includes(search));
-      }
-
-      renderTukang(filtered);
-    }
-
-    function sortData(val) {
-      let sorted = [...dataTukang];
-      if(val === 'jarak') sorted.sort((a,b) => a.jarak - b.jarak);
-      if(val === 'rating') sorted.sort((a,b) => b.rating - a.rating);
-      if(val === 'harga') sorted.sort((a,b) => a.hargaMin - b.hargaMin);
-      renderTukang(sorted);
-    }
-
-    // ⚙️ MODAL LOGIC
-    function openDetail(id) {
-      const t = dataTukang.find(x => x.id === id);
-      const content = document.getElementById('detail-content');
-      content.innerHTML = `
-        <span class="close-modal" onclick="closeAllModals()">×</span>
-        <div style="text-align:center;">
-          <img src="https://ui-avatars.com/api/?name=${t.nama}&background=random&size=128" style="border-radius:20px; margin-bottom:15px;">
-          <h2>${t.nama}</h2>
-          <span class="skill-tag">${t.keahlian}</span>
-          <div class="rating" style="margin:10px 0;">⭐⭐⭐⭐⭐ (${t.review} review)</div>
-        </div>
-        <div style="margin: 20px 0; font-size:0.9rem; line-height:1.6;">
-          <p><strong>Tentang:</strong> ${t.deskripsi}</p>
-          <p style="margin-top:10px;"><strong>Pekerjaan Selesai:</strong> 100+</p>
-          <p><strong>Sertifikasi:</strong> <span style="color:var(--secondary)">✔ Terverifikasi FixNear</span></p>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-outline" onclick="openChat('${t.nama}')">Chat Sekarang</button>
-          <button class="btn btn-primary" onclick="openPesan(${t.id})">Booking Jasa</button>
+          <div class="card-footer">
+            <button class="btn btn-outline" onclick="event.stopPropagation(); openChat(${t.id})"><i class="fas fa-comment"></i> Chat</button>
+            <button class="btn btn-primary" onclick="event.stopPropagation(); openOrderModal(${t.id})"><i class="fas fa-calendar-check"></i> Pesan</button>
+          </div>
         </div>
       `;
-      document.getElementById('modal-detail').style.display = 'flex';
+    }).join('');
+  }
+  
+  // ==================== FAVORITE ====================
+  function toggleFavorite(tukangId) {
+    if(!currentUser) { showToast("Login dulu untuk menyimpan favorit", true); return; }
+    const idx = favorites.findIndex(f => f.userId === currentUser.id && f.tukangId === tukangId);
+    if(idx === -1) {
+      favorites.push({ userId: currentUser.id, tukangId });
+      showToast("Ditambahkan ke favorit");
+    } else {
+      favorites.splice(idx,1);
+      showToast("Dihapus dari favorit");
     }
-
-    function openChat(nama) {
-      closeAllModals();
-      document.getElementById('chat-with').innerText = "Chat dengan " + nama;
-      document.getElementById('modal-chat').style.display = 'flex';
+    saveAll();
+    filterAndRender();
+  }
+  
+  function showFavorites() {
+    if(!currentUser) { showToast("Login dulu", true); return; }
+    const favTukangs = tukangs.filter(t => favorites.some(f => f.userId === currentUser.id && f.tukangId === t.id));
+    const container = document.getElementById('favorite-list');
+    if(favTukangs.length === 0) container.innerHTML = "<p>Belum ada tukang favorit.</p>";
+    else {
+      container.innerHTML = favTukangs.map(t => `
+        <div class="card" style="margin-bottom:12px; padding:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div><strong>${t.nama}</strong> - ${t.keahlian}</div>
+          <button class="btn btn-outline" onclick="openDetail(${t.id}); closeModal('favorite-modal');">Lihat</button>
+        </div>
+      `).join('');
     }
-
-    function sendMessage() {
-      const input = document.getElementById('chat-input');
-      const box = document.getElementById('chat-messages');
-      if(!input.value) return;
-
-      box.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
-      const val = input.value;
-      input.value = '';
-      box.scrollTop = box.scrollHeight;
-
-      setTimeout(() => {
-        box.innerHTML += `<div class="msg msg-tukang">Baik kak, mohon tunggu sebentar ya. Saya sedang mengecek jadwal.</div>`;
-        box.scrollTop = box.scrollHeight;
-      }, 1500);
+    document.getElementById('favorite-modal').style.display = 'flex';
+  }
+  
+  // ==================== DETAIL TUKANG ====================
+  function openDetail(id) {
+    const t = tukangs.find(x => x.id === id);
+    const content = document.getElementById('detail-content');
+    content.innerHTML = `
+      <div class="modal-header">
+        <h3>Detail Tukang</h3>
+        <span class="close-modal" onclick="closeModal('detail-modal')">&times;</span>
+      </div>
+      <div style="text-align:center;">
+        <div class="avatar" style="width:80px; height:80px; font-size:2rem; margin:0 auto;">${t.nama.charAt(0)}</div>
+        <h2>${t.nama}</h2>
+        <span class="skill">${t.keahlian}</span>
+        <div class="rating"><i class="fas fa-star"></i> ${t.rating} (${t.completedJobs} pekerjaan selesai)</div>
+      </div>
+      <div style="margin:20px 0;">
+        <p><i class="fas fa-info-circle"></i> <strong>Deskripsi:</strong> ${t.deskripsi}</p>
+        <p><i class="fas fa-map-marker-alt"></i> <strong>Lokasi:</strong> ${t.alamat || 'Tidak tersedia'}</p>
+        <p><i class="fas fa-money-bill"></i> <strong>Harga Mulai:</strong> Rp ${t.hargaMin.toLocaleString()}</p>
+        <p><i class="fas fa-calendar"></i> <strong>Status:</strong> ${t.status === 'online' ? 'Online (siap menerima pesanan)' : 'Offline'}</p>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-outline" onclick="openChat(${t.id}); closeModal('detail-modal');"><i class="fas fa-comment"></i> Chat</button>
+        <button class="btn btn-primary" onclick="openOrderModal(${t.id}); closeModal('detail-modal');"><i class="fas fa-calendar-check"></i> Pesan</button>
+      </div>
+    `;
+    document.getElementById('detail-modal').style.display = 'flex';
+  }
+  
+  // ==================== CHAT ====================
+  function openChat(tukangId) {
+    if(!currentUser) { showToast("Login dulu untuk chat", true); return; }
+    currentChatTukangId = tukangId;
+    const tukang = tukangs.find(t => t.id === tukangId);
+    document.getElementById('chat-title').innerHTML = `Chat dengan ${tukang.nama}`;
+    loadChatMessages();
+    document.getElementById('chat-modal').style.display = 'flex';
+  }
+  
+  function loadChatMessages() {
+    const chatKey = `${Math.min(currentUser.id, currentChatTukangId)}_${Math.max(currentUser.id, currentChatTukangId)}`;
+    let msgs = chats.filter(c => c.chatKey === chatKey);
+    const container = document.getElementById('chat-messages');
+    if(msgs.length === 0) {
+      container.innerHTML = '<div class="message tukang">Halo! Ada yang bisa dibantu?</div>';
+    } else {
+      container.innerHTML = msgs.map(m => `
+        <div class="message ${m.senderId === currentUser.id ? 'user' : 'tukang'}">${m.text}</div>
+      `).join('');
     }
-
-    function openPesan(id) {
-      closeAllModals();
-      document.getElementById('modal-pesan').style.display = 'flex';
-    }
-
-    function konfirmasiPesanan() {
-      const alamat = document.getElementById('order-alamat').value;
-      const desc = document.getElementById('order-desc').value;
-      if(!alamat || !desc) return alert("Mohon lengkapi alamat dan keluhan.");
-
-      closeAllModals();
-      showToast("✅ Pesanan berhasil dibuat! Teknisi akan segera menghubungi Anda.");
-    }
-
-    function closeAllModals() {
-      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText = msg;
-      t.style.display = 'block';
-      setTimeout(() => t.style.display = 'none', 3000);
-    }
-
-    // ⚙️ MODE TUKANG LOGIC
-    function tambahJasa() {
-      const nama = document.getElementById('t-nama').value;
-      const skill = document.getElementById('t-skill').value;
-      const harga = document.getElementById('t-harga').value;
-      const desc = document.getElementById('t-desc').value;
-
-      if(!nama || !harga || !desc) return alert("Lengkapi data jasa Anda.");
-
-      const newJasa = {
-        id: Date.now(),
-        nama: nama,
-        keahlian: skill,
-        rating: 5.0,
-        review: 0,
-        jarak: (Math.random() * 5).toFixed(1),
-        hargaMin: parseInt(harga),
-        hargaMax: parseInt(harga) + 50000,
-        status: "online",
-        deskripsi: desc
-      };
-
-      dataTukang.unshift(newJasa);
-      showToast("🚀 Jasa Anda berhasil didaftarkan!");
-      renderTukang(dataTukang);
-      switchMode('user');
-      
-      // Reset Form
-      document.getElementById('t-nama').value = '';
-      document.getElementById('t-harga').value = '';
-      document.getElementById('t-desc').value = '';
-    }
-
-    // Initialize
-    window.onload = () => {
-      renderTukang(dataTukang);
-      
-      // PWA Service Worker (Template Function)
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(() => console.log('FixNear SW registered!'))
-          .catch(err => console.error('SW gagal:', err));
-      }
+    container.scrollTop = container.scrollHeight;
+  }
+  
+  function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    if(!input.value.trim()) return;
+    const chatKey = `${Math.min(currentUser.id, currentChatTukangId)}_${Math.max(currentUser.id, currentChatTukangId)}`;
+    const newMsg = {
+      id: Date.now(),
+      chatKey: chatKey,
+      senderId: currentUser.id,
+      receiverId: currentChatTukangId,
+      text: input.value,
+      timestamp: new Date().toISOString()
     };
-  </script>
-
+    chats.push(newMsg);
+    saveAll();
+    input.value = '';
+    loadChatMessages();
+    // Auto reply simulasi
+    setTimeout(() => {
+      const autoReply = {
+        id: Date.now()+1,
+        chatKey: chatKey,
+        senderId: currentChatTukangId,
+        receiverId: currentUser.id,
+        text: "Terima kasih pesannya, akan segera kami respon.",
+        timestamp: new Date().toISOString()
+      };
+      chats.push(autoReply);
+      saveAll();
+      loadChatMessages();
+    }, 2000);
+  }
+  
+  // ==================== ORDER ====================
+  function openOrderModal(tukangId) {
+    if(!currentUser) { showToast("Login dulu untuk memesan", true); return; }
+    selectedTukangId = tukangId;
+    document.getElementById('order-modal').style.display = 'flex';
+  }
+  
+  function buatPesanan() {
+    const alamat = document.getElementById('order-alamat').value;
+    const deskripsi = document.getElementById('order-deskripsi').value;
+    const tanggal = document.getElementById('order-tanggal').value;
+    const payment = document.getElementById('order-payment').value;
+    if(!alamat || !deskripsi) { showToast("Lengkapi alamat dan deskripsi", true); return; }
+    const newOrder = {
+      id: Date.now(),
+      userId: currentUser.id,
+      tukangId: selectedTukangId,
+      status: "Menunggu Konfirmasi",
+      tanggal: tanggal || new Date().toISOString().split('T')[0],
+      alamat,
+      deskripsi,
+      payment,
+      rating: null,
+      review: null
+    };
+    orders.push(newOrder);
+    saveAll();
+    closeModal('order-modal');
+    showToast("Pesanan berhasil dibuat! Tukang akan segera menghubungi.");
+    // Reset form
+    document.getElementById('order-alamat').value = '';
+    document.getElementById('order-deskripsi').value = '';
+    document.getElementById('order-tanggal').value = '';
+  }
+  
+  function showMyOrders() {
+    if(!currentUser) { showToast("Login dulu", true); return; }
+    const userOrders = orders.filter(o => o.userId === currentUser.id);
+    const container = document.getElementById('orders-list');
+    if(userOrders.length === 0) container.innerHTML = "<p>Belum ada pesanan.</p>";
+    else {
+      container.innerHTML = userOrders.map(o => {
+        const tukang = tukangs.find(t => t.id === o.tukangId);
+        return `
+          <div class="card" style="margin-bottom:12px; padding:12px;">
+            <div><strong>${tukang ? tukang.nama : 'Tukang'}</strong> - ${o.status}</div>
+            <div><small>${o.tanggal} | ${o.alamat.substring(0,30)}...</small></div>
+            <div>${o.deskripsi.substring(0,50)}</div>
+            ${o.status === 'Selesai' && !o.rating ? `<button class="btn btn-outline" style="margin-top:8px;" onclick="rateOrder(${o.id})">Berikan Rating & Review</button>` : (o.rating ? `<div><i class="fas fa-star"></i> Rating: ${o.rating} - ${o.review || ''}</div>` : '')}
+            ${o.status === 'Menunggu Konfirmasi' ? `<button class="btn btn-danger" style="margin-top:8px;" onclick="cancelOrder(${o.id})">Batalkan Pesanan</button>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+    document.getElementById('orders-modal').style.display = 'flex';
+  }
+  
+  function rateOrder(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if(!order) return;
+    const rating = prompt("Berikan rating (1-5):", "5");
+    if(rating && rating >=1 && rating <=5) {
+      const review = prompt("Tulis review (opsional):", "");
+      order.rating = parseInt(rating);
+      order.review = review || "";
+      // Update rating tukang
+      const tukang = tukangs.find(t => t.id === order.tukangId);
+      if(tukang) {
+        let total = tukang.rating * tukang.completedJobs;
+        tukang.completedJobs = (tukang.completedJobs || 0) + 1;
+        tukang.rating = (total + parseInt(rating)) / tukang.completedJobs;
+        tukang.rating = Math.round(tukang.rating * 10) / 10;
+        saveAll();
+      }
+      saveAll();
+      showToast("Terima kasih atas ratingnya!");
+      showMyOrders();
+      filterAndRender();
+    }
+  }
+  
+  function cancelOrder(orderId) {
+    if(confirm("Yakin ingin membatalkan pesanan ini?")) {
+      orders = orders.filter(o => o.id !== orderId);
+      saveAll();
+      showToast("Pesanan dibatalkan");
+      showMyOrders();
+    }
+  }
+  
+  // ==================== TUKANG DASHBOARD ====================
+  function loadTukangDashboard() {
+    if(!currentUser || currentUser.role !== 'tukang') return;
+    const myTukang = tukangs.find(t => t.userId === currentUser.id);
+    if(myTukang) {
+      document.getElementById('stat-rating').innerText = myTukang.rating;
+      document.getElementById('stat-completed').innerText = myTukang.completedJobs;
+      const myOrders = orders.filter(o => o.tukangId === myTukang.id);
+      document.getElementById('stat-total-order').innerText = myOrders.length;
+      const container = document.getElementById('tukang-orders');
+      if(myOrders.length === 0) container.innerHTML = "<p>Belum ada pesanan masuk.</p>";
+      else {
+        container.innerHTML = myOrders.map(o => {
+          const user = users.find(u => u.id === o.userId);
+          return `
+            <div class="card" style="padding:12px;">
+              <div><strong>${user ? user.nama : 'User'}</strong> - ${o.status}</div>
+              <div><i class="fas fa-calendar"></i> ${o.tanggal} | ${o.alamat.substring(0,40)}</div>
+              <div>${o.deskripsi}</div>
+              ${o.status === 'Menunggu Konfirmasi' ? `<button class="btn btn-primary" style="margin-top:8px;" onclick="updateOrderStatus(${o.id}, 'Diproses')">Terima & Proses</button>` : ''}
+              ${o.status === 'Diproses' ? `<button class="btn btn-primary" style="margin-top:8px;" onclick="updateOrderStatus(${o.id}, 'Selesai')">Tandai Selesai</button>` : ''}
+              ${o.status === 'Selesai' ? `<span class="status online">Selesai</span>` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+    } else {
+      document.getElementById('tukang-orders').innerHTML = "<p>Anda belum mendaftarkan jasa. Silakan daftarkan jasa di atas.</p>";
+      document.getElementById('stat-rating').innerText = '0';
+      document.getElementById('stat-completed').innerText = '0';
+      document.getElementById('stat-total-order').innerText = '0';
+    }
+  }
+  
+  function daftarJasa() {
+    if(!currentUser) { showToast("Login dulu", true); return; }
+    const nama = document.getElementById('tukang-nama').value;
+    const keahlian = document.getElementById('tukang-keahlian').value;
+    const harga = parseInt(document.getElementById('tukang-harga').value);
+    const deskripsi = document.getElementById('tukang-deskripsi').value;
+    const alamat = document.getElementById('tukang-alamat').value;
+    if(!nama || !harga || !deskripsi) { showToast("Lengkapi data jasa", true); return; }
+    const newTukang = {
+      id: Date.now(),
+      userId: currentUser.id,
+      nama,
+      keahlian,
+      hargaMin: harga,
+      deskripsi,
+      alamat,
+      rating: 5.0,
+      completedJobs: 0,
+      lat: userLocation.lat + (Math.random() - 0.5) * 0.02,
+      lng: userLocation.lng + (Math.random() - 0.5) * 0.02,
+      status: "online"
+    };
+    tukangs.push(newTukang);
+    saveAll();
+    showToast("Jasa berhasil didaftarkan!");
+    // Clear form
+    document.getElementById('tukang-nama').value = '';
+    document.getElementById('tukang-harga').value = '';
+    document.getElementById('tukang-deskripsi').value = '';
+    document.getElementById('tukang-alamat').value = '';
+    loadTukangDashboard();
+    filterAndRender();
+  }
+  
+  function updateOrderStatus(orderId, newStatus) {
+    const order = orders.find(o => o.id === orderId);
+    if(order) {
+      order.status = newStatus;
+      if(newStatus === 'Selesai') {
+        // Update completed jobs untuk tukang
+        const tukang = tukangs.find(t => t.id === order.tukangId);
+        if(tukang) tukang.completedJobs = (tukang.completedJobs || 0) + 1;
+      }
+      saveAll();
+      showToast(`Status pesanan: ${newStatus}`);
+      loadTukangDashboard();
+      filterAndRender();
+    }
+  }
+  
+  // ==================== INIT ====================
+  function init() {
+    initDummyData();
+    updateDistances();
+    updateAuthUI();
+    filterAndRender();
+    // Event listeners kategori
+    document.querySelectorAll('.cat-item').forEach(cat => {
+      cat.addEventListener('click', function() {
+        document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        filterAndRender();
+      });
+    });
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchRole(btn.dataset.role));
+    });
+    // Tutup modal dengan klik di luar
+    window.onclick = function(e) {
+      if(e.target.classList.contains('modal')) e.target.style.display = 'none';
+    };
+  }
+  
+  init();
+</script>
 </body>
 </html>
