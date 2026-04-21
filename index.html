@@ -2,591 +2,559 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#6366f1" />
-    <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
-    <!-- ini untuk icon -->
-    <link rel="manifest" href="manifest.json">
-    <title>TaskFlow - Kelola Tugas Anda</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2563eb" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>FixNear - Cari Tukang Terdekat</title>
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #22c55e;
+      --bg: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --white: #ffffff;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --bg-dark: #ffffff;
-            --bg-card: #1e293b;
-            --text-light: #f8fafc;
-            --text-gray: #cbd5e1;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1856bb 100%);
-            color: var(--text-light);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
+    body { background-color: var(--bg); color: var(--text-dark); transition: all 0.3s ease; }
 
-        .header {
-            background: #1856bb;
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+    /* Header & Navigation */
+    .header {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: var(--white);
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      box-shadow: var(--shadow);
+    }
 
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .role-switcher {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px;
+      border-radius: 50px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .role-btn {
+      border: none;
+      padding: 8px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      background: transparent;
+      color: white;
+    }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
+    .role-btn.active { background: var(--white); color: var(--primary); }
 
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-        }
+    /* Search & Filters */
+    .search-container {
+      padding: 20px;
+      margin-top: -25px;
+    }
 
-        .stats {
-            display: flex;
-            gap: 16px;
-            font-size: 14px;
-            color: var(--text-gray);
-        }
+    .search-bar {
+      background: var(--white);
+      padding: 15px;
+      border-radius: 15px;
+      display: flex;
+      box-shadow: var(--shadow);
+    }
 
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+    .search-bar input { border: none; outline: none; flex: 1; padding: 0 10px; font-size: 1rem; }
 
-        .stat-number {
-            color: var(--primary-light);
-            font-weight: 700;
-        }
+    .category-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 15px 20px;
+      scrollbar-width: none;
+    }
+    .category-scroll::-webkit-scrollbar { display: none; }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
+    .cat-item {
+      background: var(--white);
+      padding: 10px 20px;
+      border-radius: 50px;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border: 1px solid transparent;
+      transition: 0.3s;
+    }
 
-        .input-section {
-            background: var(--bg-card);
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(99, 102, 241, 0.1);
-        }
+    .cat-item.active { background: var(--primary); color: white; }
 
-        .input-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
+    /* List Tukang Grid */
+    .main-content { padding: 0 20px 100px 20px; }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
 
-        input[type="text"] {
-            flex: 1;
-            padding: 14px 18px;
-            background: var(--bg-dark);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid #f1f5f9;
+    }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
+    .card:hover { transform: translateY(-8px); }
 
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .status-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-weight: bold;
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
+    .online { background: #dcfce7; color: #166534; }
+    .offline { background: #f1f5f9; color: #64748b; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-        }
+    .card-img { width: 60px; height: 60px; border-radius: 15px; background: #e2e8f0; object-fit: cover; }
+    
+    .card-body h3 { margin-top: 10px; font-size: 1.1rem; }
+    .skill-tag { font-size: 0.8rem; color: var(--primary); font-weight: 600; }
+    
+    .rating { color: #f59e0b; font-size: 0.9rem; margin: 5px 0; }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #f1f5f9;
+    }
 
-        .btn-primary:active {
-            transform: translateY(0);
-        }
+    .price { font-weight: 700; color: var(--text-dark); }
+    
+    .btn-group { display: flex; gap: 8px; margin-top: 15px; }
+    
+    .btn {
+      border: none; padding: 10px; border-radius: 12px; cursor: pointer; 
+      font-weight: 600; transition: 0.2s; flex: 1; font-size: 0.85rem;
+    }
 
-        .priority-selector {
-            display: flex;
-            gap: 8px;
-        }
+    .btn:active { transform: scale(0.95); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-outline { background: #eff6ff; color: var(--primary); }
 
-        .priority-btn {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: transparent;
-            color: var(--text-gray);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
+    /* Modal Styling */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;
+      padding: 20px;
+    }
 
-        .priority-btn.active {
-            border-color: currentColor;
-            background: rgba(255, 255, 255, 0.1);
-            font-weight: 600;
-        }
+    .modal-content {
+      background: white; width: 100%; max-width: 450px; border-radius: 25px;
+      padding: 30px; position: relative; animation: slideUp 0.3s ease-out;
+    }
 
-        .priority-btn.high {
-            color: var(--danger);
-        }
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .priority-btn.medium {
-            color: var(--warning);
-        }
+    .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; }
 
-        .priority-btn.low {
-            color: var(--success);
-        }
+    /* Chat UI */
+    .chat-box { height: 300px; overflow-y: auto; background: #f8fafc; padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
+    .msg-user { align-self: flex-end; background: var(--primary); color: white; }
+    .msg-tukang { align-self: flex-start; background: #e2e8f0; color: var(--text-dark); }
 
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
+    /* Mode Tukang Form */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none;
+    }
 
-        .filter-tab {
-            padding: 10px 20px;
-            background: var(--bg-card);
-            border: 2px solid transparent;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-        }
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: var(--text-dark); color: white; padding: 12px 25px;
+      border-radius: 50px; font-size: 0.9rem; display: none; z-index: 2000;
+    }
 
-        .filter-tab.active {
-            background: var(--primary);
-            border-color: var(--primary-light);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .tasks-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .task-item {
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 4px solid;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: all 0.3s ease;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .task-item:hover {
-            transform: translateX(4px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .task-item.high {
-            border-left-color: var(--danger);
-        }
-
-        .task-item.medium {
-            border-left-color: var(--warning);
-        }
-
-        .task-item.low {
-            border-left-color: var(--success);
-        }
-
-        .task-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .task-checkbox:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .task-checkbox.checked {
-            background: var(--primary);
-        }
-
-        .task-content {
-            flex: 1;
-        }
-
-        .task-text {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .task-text.completed {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        .task-time {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 18px;
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .btn-delete:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-gray);
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .progress-bar {
-            background: var(--bg-card);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 16px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transition: width 0.5s ease;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 640px) {
-            .header-content {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .input-group {
-                flex-direction: column;
-            }
-
-            .stats {
-                width: 100%;
-                justify-content: space-around;
-            }
-        }
-
-        .logo h1 {
-            font-size: 50px;
-            font-weight: 800;
-        }
-    </style>
+    /* Footer */
+    .footer { text-align: center; padding: 30px; color: var(--text-light); font-size: 0.8rem; }
+  </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">✓</div>
-                <h1 class="text-judul">TaskFlow</h1>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <span>📝</span>
-                    <span>Total: <span class="stat-number" id="totalTasks">0</span></span>
-                </div>
-                <div class="stat-item">
-                    <span>✅</span>
-                    <span>Selesai: <span class="stat-number" id="completedTasks">0</span></span>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <div class="container">
-        <div class="input-section">
-            <div class="input-group">
-                <input type="text" id="taskInput" placeholder="Tambahkan tugas baru..."
-                    onkeypress="if(event.key==='Enter') addTask()" />
-                <button class="btn btn-primary" onclick="addTask()">
-                    <span>➕</span>
-                    <span>Tambah</span>
-                </button>
-            </div>
-            <div class="priority-selector">
-                <button class="priority-btn high" onclick="setPriority('high')">🔴 Tinggi</button>
-                <button class="priority-btn medium active" onclick="setPriority('medium')">🟡 Sedang</button>
-                <button class="priority-btn low" onclick="setPriority('low')">🟢 Rendah</button>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-            </div>
-        </div>
+  <header class="header">
+    <h1>FixNear</h1>
+    <p>Temukan Tukang Terdekat dengan Mudah</p>
+    <div class="role-switcher">
+      <button class="role-btn active" onclick="switchMode('user')">User</button>
+      <button class="role-btn" onclick="switchMode('tukang')">Tukang</button>
+    </div>
+  </header>
 
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterTasks('all')">Semua</button>
-            <button class="filter-tab" onclick="filterTasks('active')">Aktif</button>
-            <button class="filter-tab" onclick="filterTasks('completed')">Selesai</button>
-            <button class="filter-tab" onclick="filterTasks('high')">🔴 Prioritas Tinggi</button>
-            <button class="filter-tab" onclick="filterTasks('medium')">🟡 Prioritas Sedang</button>
-            <button class="filter-tab" onclick="filterTasks('low')">🟢 Prioritas Rendah</button>
-        </div>
+  <div id="loader" style="display:none; text-align:center; padding: 50px;">
+    <p>Mencari teknisi terbaik...</p>
+  </div>
 
-        <div class="tasks-list" id="tasksList"></div>
+  <main id="view-user">
+    <div class="search-container">
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Cari keahlian (contoh: AC)..." onkeyup="filterData()">
+      </div>
     </div>
 
-    <script>
-        let tasks = [];
-        let currentPriority = 'medium';
-        let currentFilter = 'all';
+    <div class="category-scroll">
+      <div class="cat-item active" onclick="filterCategory('Semua')">Semua</div>
+      <div class="cat-item" onclick="filterCategory('AC')">AC</div>
+      <div class="cat-item" onclick="filterCategory('Listrik')">Listrik</div>
+      <div class="cat-item" onclick="filterCategory('HP')">HP</div>
+      <div class="cat-item" onclick="filterCategory('TV')">TV</div>
+    </div>
 
-        function loadTasks() {
-            const saved = localStorage.getItem('taskflow_tasks');
-            if (saved) {
-                tasks = JSON.parse(saved);
-                renderTasks();
-            }
-        }
+    <div class="main-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h2 style="font-size: 1.1rem;">Rekomendasi Teknisi</h2>
+        <select onchange="sortData(this.value)" style="border:none; background:none; font-size:0.8rem; color:var(--primary); font-weight:bold;">
+          <option value="jarak">Terdekat</option>
+          <option value="rating">Rating Tertinggi</option>
+          <option value="harga">Harga Termurah</option>
+        </select>
+      </div>
+      <div class="grid" id="tukang-grid">
+        </div>
+      <div id="empty-state" style="display:none; text-align:center; padding: 40px; color: var(--text-light);">
+        <p>Tukang tidak ditemukan.</p>
+      </div>
+    </div>
+  </main>
 
-        function saveTasks() {
-            localStorage.setItem('taskflow_tasks', JSON.stringify(tasks));
-        }
+  <main id="view-tukang" style="display:none; padding: 20px;">
+    <div class="card" style="margin-bottom: 20px; background: var(--primary); color: white;">
+      <div style="display:flex; justify-content:space-between;">
+        <div>
+          <p style="font-size: 0.8rem;">Statistik Anda</p>
+          <h2 style="font-size: 1.5rem;">4.9 ⭐</h2>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size: 0.8rem;">Pekerjaan Selesai</p>
+          <h2 style="font-size: 1.5rem;">124</h2>
+        </div>
+      </div>
+    </div>
 
-        function setPriority(priority) {
-            currentPriority = priority;
-            document.querySelectorAll('.priority-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
+    <div class="card">
+      <h3 style="margin-bottom:15px;">Daftarkan Jasa Anda</h3>
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <input type="text" id="t-nama" placeholder="Masukkan nama...">
+      </div>
+      <div class="form-group">
+        <label>Keahlian Utama</label>
+        <select id="t-skill">
+          <option value="AC">AC</option>
+          <option value="Listrik">Listrik</option>
+          <option value="HP">HP</option>
+          <option value="TV">TV</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Estimasi Harga (Rp)</label>
+        <input type="number" id="t-harga" placeholder="Contoh: 75000">
+      </div>
+      <div class="form-group">
+        <label>Deskripsi Singkat</label>
+        <textarea id="t-desc" rows="3" placeholder="Jelaskan kelebihan Anda..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="tambahJasa()">Daftarkan Jasa</button>
+    </div>
+  </main>
 
-        function addTask() {
-            const input = document.getElementById('taskInput');
-            const text = input.value.trim();
+  <div class="modal" id="modal-detail">
+    <div class="modal-content" id="detail-content">
+      </div>
+  </div>
 
-            if (text === '') return;
+  <div class="modal" id="modal-chat">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAllModals()">×</span>
+      <h3 id="chat-with" style="margin-bottom:15px;">Chat</h3>
+      <div class="chat-box" id="chat-messages">
+        <div class="msg msg-tukang">Halo! Ada yang bisa saya bantu dengan perangkat elektroniknya?</div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:15px;">
+        <input type="text" id="chat-input" placeholder="Tulis pesan..." style="flex:1; padding:10px; border-radius:10px; border:1px solid #e2e8f0;">
+        <button class="btn btn-primary" style="flex:none; width:60px;" onclick="sendMessage()">Kirim</button>
+      </div>
+    </div>
+  </div>
 
-            const task = {
-                id: Date.now(),
-                text: text,
-                completed: false,
-                priority: currentPriority,
-                createdAt: new Date().toLocaleString('id-ID')
-            };
+  <div class="modal" id="modal-pesan">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAllModals()">×</span>
+      <h3 style="margin-bottom:15px;">Buat Pesanan</h3>
+      <div class="form-group">
+        <label>Alamat Lengkap</label>
+        <input type="text" id="order-alamat" placeholder="Jl. Mawar No. 123...">
+      </div>
+      <div class="form-group">
+        <label>Deskripsi Keluhan</label>
+        <textarea id="order-desc" rows="3" placeholder="Contoh: AC tidak dingin sama sekali..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <select id="order-pay">
+          <option value="Cash">Tunai (Cash)</option>
+          <option value="Transfer">Transfer Bank</option>
+          <option value="Saldo">FixNear Saldo</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="konfirmasiPesanan()">Konfirmasi Pemesanan</button>
+    </div>
+  </div>
 
-            tasks.unshift(task);
-            input.value = '';
-            saveTasks();
-            renderTasks();
-        }
+  <div class="toast" id="toast">Notifikasi muncul</div>
 
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.completed = !task.completed;
-                saveTasks();
-                renderTasks();
-            }
-        }
+  <footer class="footer">
+    <p>© 2026 Anwar Fauzi • FixNear v1.0</p>
+  </footer>
 
-        function deleteTask(id) {
-            tasks = tasks.filter(t => t.id !== id);
-            saveTasks();
-            renderTasks();
-        }
+  <script>
+    // 📊 DATA DUMMY
+    let dataTukang = [
+      { id: 1, nama: "Budi Santoso", keahlian: "AC", rating: 4.8, review: 156, jarak: 0.8, hargaMin: 50000, hargaMax: 150000, status: "online", deskripsi: "Spesialis AC split dan central selama 10 tahun." },
+      { id: 2, nama: "Agus Listrik", keahlian: "Listrik", rating: 4.9, review: 89, jarak: 1.5, hargaMin: 75000, hargaMax: 200000, status: "online", deskripsi: "Instalasi kabel rumah dan perbaikan korsleting." },
+      { id: 3, nama: "Irfan Cell", keahlian: "HP", rating: 4.5, review: 210, jarak: 2.1, hargaMin: 30000, hargaMax: 500000, status: "offline", deskripsi: "Ganti LCD, baterai, dan servis software." },
+      { id: 4, nama: "Slamet TV", keahlian: "TV", rating: 4.7, review: 45, jarak: 3.0, hargaMin: 100000, hargaMax: 350000, status: "online", deskripsi: "Ahli TV LED, LCD, dan Smart TV semua merk." },
+      { id: 5, nama: "Rahmat AC", keahlian: "AC", rating: 4.6, review: 120, jarak: 1.2, hargaMin: 60000, hargaMax: 140000, status: "online", deskripsi: "Cuci AC rutin dan tambah freon cepat." },
+      { id: 6, nama: "Dedi Setiawan", keahlian: "Listrik", rating: 4.4, review: 67, jarak: 2.8, hargaMin: 50000, hargaMax: 100000, status: "offline", deskripsi: "Perbaikan stop kontak dan lampu." }
+    ];
 
-        function filterTasks(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            renderTasks();
-        }
+    let currentCategory = 'Semua';
 
-        function renderTasks() {
-            const container = document.getElementById('tasksList');
+    // ⚙️ FUNGSI SWITCH MODE
+    function switchMode(mode) {
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if(mode === 'user') {
+        document.getElementById('view-user').style.display = 'block';
+        document.getElementById('view-tukang').style.display = 'none';
+      } else {
+        document.getElementById('view-user').style.display = 'none';
+        document.getElementById('view-tukang').style.display = 'block';
+      }
+    }
 
-            let filteredTasks = tasks;
+    // ⚙️ RENDER DATA
+    function renderTukang(data) {
+      const grid = document.getElementById('tukang-grid');
+      const empty = document.getElementById('empty-state');
+      grid.innerHTML = '';
+      
+      if(data.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
 
-            if (currentFilter === 'active') {
-                filteredTasks = tasks.filter(t => !t.completed);
-            } else if (currentFilter === 'completed') {
-                filteredTasks = tasks.filter(t => t.completed);
-            } else if (['high', 'medium', 'low'].includes(currentFilter)) {
-                filteredTasks = tasks.filter(t => t.priority === currentFilter);
-            }
-
-            if (filteredTasks.length === 0) {
-                container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">📋</div>
-            <h3>Tidak ada tugas</h3>
-            <p>Mulai tambahkan tugas baru untuk memulai!</p>
-          </div>
-        `;
-            } else {
-                container.innerHTML = filteredTasks.map(task => `
-          <div class="task-item ${task.priority}">
-            <div class="task-checkbox ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})">
-              ${task.completed ? '✓' : ''}
-            </div>
-            <div class="task-content">
-              <div class="task-text ${task.completed ? 'completed' : ''}">${task.text}</div>
-              <div class="task-meta">
-                <span class="task-time">🕒 ${task.createdAt}</span>
-                <span>📌 ${task.priority === 'high' ? 'Tinggi' : task.priority === 'medium' ? 'Sedang' : 'Rendah'}</span>
+      data.forEach(t => {
+        const stars = "⭐".repeat(Math.floor(t.rating));
+        grid.innerHTML += `
+          <div class="card" onclick="openDetail(${t.id})">
+            <span class="status-badge ${t.status}">${t.status.toUpperCase()}</span>
+            <div style="display:flex; gap:15px; align-items:center;">
+              <img src="https://ui-avatars.com/api/?name=${t.nama}&background=random" class="card-img">
+              <div>
+                <span class="skill-tag">${t.keahlian}</span>
+                <h3>${t.nama}</h3>
               </div>
             </div>
-            <div class="task-actions">
-              <button class="btn-icon btn-delete" onclick="deleteTask(${task.id})">🗑️</button>
+            <div class="rating">${stars} <span style="color:#64748b; font-size:0.8rem">(${t.review} review)</span></div>
+            <p style="font-size:0.8rem; color:var(--text-light)">📍 ${t.jarak} km dari lokasi Anda</p>
+            <div class="card-footer">
+              <span class="price">Rp ${t.hargaMin.toLocaleString()} - ${t.hargaMax.toLocaleString()}</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" onclick="event.stopPropagation(); openChat('${t.nama}')">Chat</button>
+              <button class="btn btn-primary" onclick="event.stopPropagation(); openPesan(${t.id})">Pesan</button>
             </div>
           </div>
-        `).join('');
-            }
+        `;
+      });
+    }
 
-            updateStats();
-        }
+    // ⚙️ FILTER & SORT
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+      event.target.classList.add('active');
+      filterData();
+    }
 
-        function updateStats() {
-            const total = tasks.length;
-            const completed = tasks.filter(t => t.completed).length;
-            const progress = total > 0 ? (completed / total) * 100 : 0;
+    function filterData() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = dataTukang;
 
-            document.getElementById('totalTasks').textContent = total;
-            document.getElementById('completedTasks').textContent = completed;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
+      if(currentCategory !== 'Semua') {
+        filtered = filtered.filter(t => t.keahlian === currentCategory);
+      }
 
-        loadTasks();
+      if(search) {
+        filtered = filtered.filter(t => t.keahlian.toLowerCase().includes(search) || t.nama.toLowerCase().includes(search));
+      }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(() => console.log('Service Worker registered'))
-                    .catch(err => console.error('Service Worker error:', err));
-            });
-        }
-    </script>
+      renderTukang(filtered);
+    }
+
+    function sortData(val) {
+      let sorted = [...dataTukang];
+      if(val === 'jarak') sorted.sort((a,b) => a.jarak - b.jarak);
+      if(val === 'rating') sorted.sort((a,b) => b.rating - a.rating);
+      if(val === 'harga') sorted.sort((a,b) => a.hargaMin - b.hargaMin);
+      renderTukang(sorted);
+    }
+
+    // ⚙️ MODAL LOGIC
+    function openDetail(id) {
+      const t = dataTukang.find(x => x.id === id);
+      const content = document.getElementById('detail-content');
+      content.innerHTML = `
+        <span class="close-modal" onclick="closeAllModals()">×</span>
+        <div style="text-align:center;">
+          <img src="https://ui-avatars.com/api/?name=${t.nama}&background=random&size=128" style="border-radius:20px; margin-bottom:15px;">
+          <h2>${t.nama}</h2>
+          <span class="skill-tag">${t.keahlian}</span>
+          <div class="rating" style="margin:10px 0;">⭐⭐⭐⭐⭐ (${t.review} review)</div>
+        </div>
+        <div style="margin: 20px 0; font-size:0.9rem; line-height:1.6;">
+          <p><strong>Tentang:</strong> ${t.deskripsi}</p>
+          <p style="margin-top:10px;"><strong>Pekerjaan Selesai:</strong> 100+</p>
+          <p><strong>Sertifikasi:</strong> <span style="color:var(--secondary)">✔ Terverifikasi FixNear</span></p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="openChat('${t.nama}')">Chat Sekarang</button>
+          <button class="btn btn-primary" onclick="openPesan(${t.id})">Booking Jasa</button>
+        </div>
+      `;
+      document.getElementById('modal-detail').style.display = 'flex';
+    }
+
+    function openChat(nama) {
+      closeAllModals();
+      document.getElementById('chat-with').innerText = "Chat dengan " + nama;
+      document.getElementById('modal-chat').style.display = 'flex';
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const box = document.getElementById('chat-messages');
+      if(!input.value) return;
+
+      box.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
+      const val = input.value;
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+
+      setTimeout(() => {
+        box.innerHTML += `<div class="msg msg-tukang">Baik kak, mohon tunggu sebentar ya. Saya sedang mengecek jadwal.</div>`;
+        box.scrollTop = box.scrollHeight;
+      }, 1500);
+    }
+
+    function openPesan(id) {
+      closeAllModals();
+      document.getElementById('modal-pesan').style.display = 'flex';
+    }
+
+    function konfirmasiPesanan() {
+      const alamat = document.getElementById('order-alamat').value;
+      const desc = document.getElementById('order-desc').value;
+      if(!alamat || !desc) return alert("Mohon lengkapi alamat dan keluhan.");
+
+      closeAllModals();
+      showToast("✅ Pesanan berhasil dibuat! Teknisi akan segera menghubungi Anda.");
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    // ⚙️ MODE TUKANG LOGIC
+    function tambahJasa() {
+      const nama = document.getElementById('t-nama').value;
+      const skill = document.getElementById('t-skill').value;
+      const harga = document.getElementById('t-harga').value;
+      const desc = document.getElementById('t-desc').value;
+
+      if(!nama || !harga || !desc) return alert("Lengkapi data jasa Anda.");
+
+      const newJasa = {
+        id: Date.now(),
+        nama: nama,
+        keahlian: skill,
+        rating: 5.0,
+        review: 0,
+        jarak: (Math.random() * 5).toFixed(1),
+        hargaMin: parseInt(harga),
+        hargaMax: parseInt(harga) + 50000,
+        status: "online",
+        deskripsi: desc
+      };
+
+      dataTukang.unshift(newJasa);
+      showToast("🚀 Jasa Anda berhasil didaftarkan!");
+      renderTukang(dataTukang);
+      switchMode('user');
+      
+      // Reset Form
+      document.getElementById('t-nama').value = '';
+      document.getElementById('t-harga').value = '';
+      document.getElementById('t-desc').value = '';
+    }
+
+    // Initialize
+    window.onload = () => {
+      renderTukang(dataTukang);
+      
+      // PWA Service Worker (Template Function)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(() => console.log('FixNear SW registered!'))
+          .catch(err => console.error('SW gagal:', err));
+      }
+    };
+  </script>
 
 </body>
-
 </html>
